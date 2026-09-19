@@ -17,10 +17,15 @@ El equipo actúa como consultor contratado por una ONG interesada en apoyar la c
 
 Aportes de cada integrante:
 ·Mariana Muñoz:
+
 ·Tannia Matallana:
+
 ·David Suarez:
+
 ·Chari Reyes:
+
 ·Juan Plazas:
+
 
 El análisis se organiza en tres bloques:
 
