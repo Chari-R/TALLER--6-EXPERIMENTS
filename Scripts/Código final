@@ -165,7 +165,7 @@ list Period trat media varianza desv minimo maximo rango if inlist(Period,1,10),
   comportamiento? Prueba t de diferencia de medias, CON vs. SIN castigo.
 ==============================================================================*/
 
-* REQUISITO: antes de correr este bloque, vuelvan a importar la base
+* REQUISITO: antes de correr este bloque, vuelva a importar la base
 * "doing-economics-datafile-working-in-excel-project-2.xlsx" TAL CUAL
 * (sin la limpieza/variable `trat` del Bloque B) — este bloque hace su
 * propia limpieza y reshape desde cero, y espera las columnas originales.
