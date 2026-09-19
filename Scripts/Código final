@@ -56,11 +56,6 @@ twoway connected contribucion_promedio Round, ///
 
 restore
 
-* P2.1.2 – P2.1.4: comparación con la Figura 3 de Herrmann et al. (2008) y
-* discusión de similitudes/diferencias -> respuesta ESCRITA en el informe/
-* README, apoyada en este gráfico y en el de la Parte 2.2 (P2.2.1), que
-* incluye la serie "Sin castigo (Figura 3)" para comparar directamente.
-
 
 /*==============================================================================
   BLOQUE B — PARTE 2.2: Describiendo datos (Herrmann, Thöni y Gächter, 2008)
