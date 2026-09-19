@@ -15,7 +15,7 @@ El equipo actúa como consultor contratado por una ONG interesada en apoyar la c
 
 · Chari Reyes, Juan plazas → Especialistas en visualización y comunicación
 
-Aportes de cada integrante:
+**Aportes de cada integrante:**
 
 · Mariana Muñoz:
 
