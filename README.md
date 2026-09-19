@@ -16,15 +16,16 @@ El equipo actúa como consultor contratado por una ONG interesada en apoyar la c
 · Chari Reyes, Juan plazas → Especialistas en visualización y comunicación
 
 Aportes de cada integrante:
-·Mariana Muñoz:
 
-·Tannia Matallana:
+· Mariana Muñoz:
 
-·David Suarez:
+· Tannia Matallana:
 
-·Chari Reyes:
+· David Suarez:
 
-·Juan Plazas:
+· Chari Reyes:
+
+· Juan Plazas:
 
 
 El análisis se organiza en tres bloques:
