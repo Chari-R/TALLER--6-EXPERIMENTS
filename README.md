@@ -8,8 +8,11 @@ El equipo actúa como consultor contratado por una ONG interesada en apoyar la c
 **Equipo consultor**
 
 · Mariana Muñoz → Líder del proyecto y enlace con la ONG
+
 · Tannia Matallana → Especialista en datos y reproducibilidad
+
 · David Suarez → Analista cuantitativo
+
 · Chari Reyes, Juan plazas → Especialistas en visualización y comunicación
 
 El análisis se organiza en tres bloques:
