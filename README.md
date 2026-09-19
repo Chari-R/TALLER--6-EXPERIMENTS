@@ -15,6 +15,13 @@ El equipo actúa como consultor contratado por una ONG interesada en apoyar la c
 
 · Chari Reyes, Juan plazas → Especialistas en visualización y comunicación
 
+Aportes de cada integrante:
+·Mariana Muñoz:
+·Tannia Matallana:
+·David Suarez:
+·Chari Reyes:
+·Juan Plazas:
+
 El análisis se organiza en tres bloques:
 
 1. **Recolección y comportamiento experimental** — análisis de los datos obtenidos mediante un juego de bienes públicos, observando la contribución promedio durante los 10 períodos del experimento.
