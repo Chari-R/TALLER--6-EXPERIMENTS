@@ -1,0 +1,234 @@
+/*==============================================================================
+  TALLER 6 — Experimentos: Acueductos Veredales
+  Consultoría ONG | Juego de bienes públicos (con y sin castigo)
+  Fuente teórica: Herrmann, Thöni y Gächter (2008), Figuras 2A y 3
+
+  Do-file MAESTRO — unifica:
+    - codigo_parte_2_1.do          (Parte 2.1)
+    - parte2_2_nuevo.do            (Parte 2.2)
+    - P2_3_2_y_P2_3_3_ttests.do    (Parte 2.3)
+
+  CÓMO CORRER ESTE ARCHIVO — son TRES bloques independientes. Cada uno
+  necesita su propia base en memoria y NO pueden convivir al mismo
+  tiempo, así que no se puede correr todo el .do de un solo tirón:
+  hay que pararse (con el cursor o seleccionando el bloque) en la
+  sección que van a correr, cargar antes los datos que esa sección
+  necesita, y correr solo esa sección.
+
+    BLOQUE A — PARTE 2.1: requiere en memoria los datos del juego
+    propio jugado en clase (variables `Round` y `Playerscontributions`).
+
+    BLOQUE B — PARTE 2.2: requiere en memoria la base de Herrmann et al.
+    (2008) importada tal como la tenían (hoja "Public goods
+    contributions", encabezados en la fila 2, "sin castigo" en filas
+    3-12, "con castigo" en filas 16-26). El propio bloque hace el
+    destring/limpieza.
+
+    BLOQUE C — PARTE 2.3: requiere una importación FRESCA (sin limpiar)
+    de esa misma base de Herrmann et al., con las columnas originales
+    intactas (Period + 16 ciudades, sin la variable `trat` que crea el
+    Bloque B) — el propio bloque hace su propia limpieza y reshape.
+    Por eso no puede reusar directamente los datos ya limpios del
+    Bloque B: hay que volver a importar el Excel antes de correr este
+    bloque.
+==============================================================================*/
+
+set more off
+
+
+/*==============================================================================
+  BLOQUE A — PARTE 2.1: Recolectando datos jugando (juego propio, en clase)
+==============================================================================*/
+
+* Se asume que la base con `Round` (1-10) y `Playerscontributions`
+* (aporte de cada jugador en cada ronda) ya está cargada en memoria.
+
+* P2.1.1 — Gráfico de líneas: contribución promedio por período
+preserve
+
+collapse (mean) contribucion_promedio=Playerscontributions, by(Round)
+
+twoway connected contribucion_promedio Round, ///
+    xlabel(1(1)10) ///
+    xtitle("Período") ///
+    ytitle("Contribución promedio (€)") ///
+    title("Contribución promedio por período")
+
+restore
+
+* P2.1.2 – P2.1.4: comparación con la Figura 3 de Herrmann et al. (2008) y
+* discusión de similitudes/diferencias -> respuesta ESCRITA en el informe/
+* README, apoyada en este gráfico y en el de la Parte 2.2 (P2.2.1), que
+* incluye la serie "Sin castigo (Figura 3)" para comparar directamente.
+
+
+/*==============================================================================
+  BLOQUE B — PARTE 2.2: Describiendo datos (Herrmann, Thöni y Gächter, 2008)
+==============================================================================*/
+
+* Se asume que la base ya está importada y en memoria: una columna Period
+* y 16 columnas (una por ciudad), con encabezados en la fila 2, "sin
+* castigo" en filas 3-12 y "con castigo" en filas 16-26 del Excel
+* original (con 2 filas en blanco y un título repetido entre bloques).
+
+* Por si ya corrieron este do-file antes en la misma sesión: borra las
+* variables que se van a crear más abajo, para poder re-correrlo sin
+* que Stata se queje de "variable ya definida".
+capture drop trat prom desv_ciudades media desv minimo maximo varianza rango
+
+describe          // revisa si las variables quedaron str# (texto) en vez de numéricas
+
+*------------------------------------------------------------------------------
+* PASO 1 — Limpieza
+*------------------------------------------------------------------------------
+* Convertir todo a numérico. La fila de encabezado repetida del segundo
+* bloque y las filas vacías del Excel quedan como missing (force lo permite).
+destring _all, replace force
+
+* Botar filas vacías y la fila de encabezado repetida.
+drop if missing(Period)
+
+count              // deben quedar exactamente 20 observaciones (10 + 10)
+assert _N == 20
+
+* Marcar el tratamiento: primeras 10 filas = SIN castigo (Fig. 3),
+* siguientes 10 = CON castigo (Fig. 2A).
+gen byte trat = cond(_n <= 10, 0, 1)
+label define trat 0 "Sin castigo" 1 "Con castigo"
+label values trat trat
+
+* Guardamos la lista de columnas de ciudad (todo menos Period y trat),
+* para no depender de sus nombres exactos (algunos traen tildes/apóstrofes
+* que Stata puede alterar al importar).
+ds Period trat, not
+local ciudades `r(varlist)'
+
+*------------------------------------------------------------------------------
+* P2.2.1 — Contribución promedio por período, una línea por experimento
+*------------------------------------------------------------------------------
+egen prom = rowmean(`ciudades')
+
+sort trat Period
+list Period trat prom, clean noobs sepby(trat)
+
+twoway (line prom Period if trat==0, sort lwidth(medthick) lpattern(dash)) ///
+       (line prom Period if trat==1, sort lwidth(medthick)), ///
+    ytitle("Contribución promedio") xtitle("Periodo") ///
+    xlabel(1(1)10) ylabel(0(2)16) ///
+    title("Contribución promedio por periodo") ///
+    subtitle("Herrmann, Thöni y Gächter (2008)") ///
+    legend(order(1 "Sin castigo (Figura 3)" 2 "Con castigo (Figura 2A)") rows(1) pos(6))
+
+*------------------------------------------------------------------------------
+* P2.2.2 — Columnas: contribución promedio, período 1 vs período 10
+*------------------------------------------------------------------------------
+graph bar (asis) prom if inlist(Period,1,10), ///
+    over(trat, label(labsize(small))) ///
+    over(Period, relabel(1 "Periodo 1" 2 "Periodo 10")) ///
+    asyvars ytitle("Contribución promedio") ylabel(0(2)16) ///
+    blabel(bar, format(%4.2f)) ///
+    title("Contribución promedio: periodo 1 vs periodo 10") ///
+    legend(order(1 "Sin castigo" 2 "Con castigo") rows(1) pos(6))
+
+*------------------------------------------------------------------------------
+* P2.2.3 — Desviación estándar entre ciudades, Períodos 1 y 10
+*------------------------------------------------------------------------------
+egen desv_ciudades = rowsd(`ciudades')
+list Period trat prom desv_ciudades if inlist(Period,1,10), clean noobs
+
+*------------------------------------------------------------------------------
+* P2.2.4 y P2.2.5 — Tabla resumen: media, varianza, sd, mínimo, máximo, rango
+*------------------------------------------------------------------------------
+* OJO: se calcula sobre las columnas de ciudad ÚNICAMENTE (`ciudades'),
+* nunca sobre trat/prom/desv_ciudades ya creadas (eso contaminaría el
+* promedio entre ciudades).
+egen media    = rowmean(`ciudades')
+egen desv     = rowsd(`ciudades')
+egen minimo   = rowmin(`ciudades')
+egen maximo   = rowmax(`ciudades')
+gen  varianza = desv^2
+gen  rango    = maximo - minimo
+
+format media varianza desv minimo maximo rango %9.4f
+
+* P2.2.4 (solo máximo y mínimo, Períodos 1 y 10, ambos experimentos)
+sort trat Period
+list Period trat minimo maximo if inlist(Period,1,10), clean noobs sepby(trat)
+
+* P2.2.5 (tabla resumen completa, con `trat` para distinguir cada experimento)
+list Period trat media varianza desv minimo maximo rango if inlist(Period,1,10), ///
+    noobs sep(0) abbrev(10)
+
+
+/*==============================================================================
+  BLOQUE C — PARTE 2.3: ¿Cómo afectó el cambio de reglas del juego al
+  comportamiento? Prueba t de diferencia de medias, CON vs. SIN castigo.
+==============================================================================*/
+
+* REQUISITO: antes de correr este bloque, vuelvan a importar la base
+* "doing-economics-datafile-working-in-excel-project-2.xlsx" TAL CUAL
+* (sin la limpieza/variable `trat` del Bloque B) — este bloque hace su
+* propia limpieza y reshape desde cero, y espera las columnas originales.
+
+preserve   // protege la base original; al final se restaura
+
+*------------------------------------------------------------------------------
+* 1. Renombrar columnas por posición (no depende de cómo se importó)
+*------------------------------------------------------------------------------
+unab todas : _all
+local primera : word 1 of `todas'
+rename `primera' period
+local i = 1
+foreach v of local todas {
+    if "`v'" != "`primera'" {
+        rename `v' c`i'
+        local ++i
+    }
+}
+
+*------------------------------------------------------------------------------
+* 2. Limpiar: quedarse solo con las filas de datos
+*------------------------------------------------------------------------------
+destring period c*, replace force
+drop if missing(period)
+
+* Primer bloque = sin castigo (0), segundo bloque = con castigo (1)
+gen castigo = (sum(period == 1) == 2)
+
+*------------------------------------------------------------------------------
+* 3. Reorganizar: una fila por ciudad y período
+*------------------------------------------------------------------------------
+reshape long c, i(castigo period) j(ciudad)
+reshape wide c, i(period ciudad) j(castigo)
+rename c0 contrib_sin
+rename c1 contrib_con
+
+label var contrib_sin "Contribución promedio sin castigo"
+label var contrib_con "Contribución promedio con castigo"
+
+*------------------------------------------------------------------------------
+* P2.3.2 - Período 1
+*------------------------------------------------------------------------------
+* Prueba pareada: las mismas ciudades jugaron ambas versiones del juego
+ttest contrib_con == contrib_sin if period == 1
+display "P2.3.2 | p-valor Período 1 (pareada): " %9.6f r(p)
+
+* Robustez: muestras independientes (equivale a TTEST tipo 2 de Excel)
+ttest contrib_con == contrib_sin if period == 1, unpaired
+display "P2.3.2 | p-valor Período 1 (independientes): " %9.6f r(p)
+
+*------------------------------------------------------------------------------
+* P2.3.3 - Período 10
+*------------------------------------------------------------------------------
+ttest contrib_con == contrib_sin if period == 10
+display "P2.3.3 | p-valor Período 10 (pareada): " %12.10f r(p)
+
+ttest contrib_con == contrib_sin if period == 10, unpaired
+display "P2.3.3 | p-valor Período 10 (independientes): " %12.10f r(p)
+
+restore   // devuelve la base a su estado original
+
+* P2.3.1 (moneda), P2.3.4 (razonamiento causal, Figura 2.6) y P2.3.5
+* (limitaciones y evidencia adicional para la ONG) son de discusión
+* ESCRITA en el informe/README; no requieren código adicional, solo se
+* apoyan en los p-valores y gráficos ya producidos arriba.
