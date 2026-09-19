@@ -1,5 +1,5 @@
 # TALLER--6-EXPERIMENTS
-**Taller 6 · Consultoría Acueductos Veredales: Experimentos, cooperación e incentivos**
+**Taller 6 · Consultoría Acueductos Veredales: Experimentos**
 
 Proyecto del curso *Doing Economics*, Facultad de Economía, Universidad del Rosario.
 
