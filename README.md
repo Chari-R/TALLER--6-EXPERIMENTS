@@ -20,6 +20,7 @@ El equipo actúa como consultor contratado por una ONG interesada en apoyar la c
 · Mariana Muñoz:
 
 · Tannia Matallana:
+Por mi parte, fui la encargada de crear y organizar todo el repositorio del proyecto, estructurando las carpetas correspondientes para el *raw data* y los demás archivos necesarios para mantener la información ordenada y facilitar el trabajo del equipo. Además, me encargué de desarrollar la sección 2.1 del código y posteriormente la sección 2.2, verificando que ambas partes funcionaran correctamente y que los procedimientos realizados fueran reproducibles, de manera que cualquier integrante del equipo pudiera ejecutar el código y obtener los mismos resultados siguiendo el proceso establecido.
 
 · David Suarez:
 
