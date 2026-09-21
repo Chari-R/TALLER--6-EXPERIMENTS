@@ -25,8 +25,10 @@ Por mi parte, fui la encargada de crear y organizar todo el repositorio del proy
 · David Suarez:
 
 · Chari Reyes:
+Por mi parte, estuve a cargo de la visualización y comunicación de los resultados de los experimentos de bienes públicos. Desarrollé el experimento de la moneda (P2.3.1) para ilustrar cómo pueden observarse diferencias en el comportamiento debidas simplemente al azar, comparando el número de caras y la secuencia obtenida en dos rondas de seis lanzamientos con la misma moneda y la misma mano. También realicé la prueba t para el Período 1 (P2.3.2), calculando el valor p de la diferencia de medias entre los tratamientos con y sin castigo e interpretando lo que dicho resultado nos dice sobre la ausencia de diferencias significativas entre los dos grupos antes de que la opción de castigo pudiera influir en el comportamiento.
 
 · Juan Plazas:
+Por mi parte, estuve a cargo de la prueba t para el Período 10 (P2.3.3), calculando el valor p de la diferencia de medias entre los tratamientos con y sin castigo e interpretando lo que este resultado nos dice sobre la relación entre el castigo y el comportamiento en el juego de bienes públicos, además de explicar, con referencia a las Figuras 2.7 y 2.8, por qué el tamaño de la diferencia por sí solo no permite concluir si esta se debe al azar. También desarrollé el análisis de evidencia causal (P2.3.4), identificando las características del entorno experimental que hacen probable que la opción de castigo haya sido la causa del cambio en el comportamiento, y explicando, con referencia a la Figura 2.6, por qué es necesario comparar los dos grupos en el Período 1 para poder concluir que existe un vínculo causal entre el castigo y el comportamiento observado en el juego.
 
 
 El análisis se organiza en tres bloques:
